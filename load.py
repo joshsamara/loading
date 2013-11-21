@@ -19,26 +19,47 @@ class LoadingBar(object):
         self.current = 0
 
         #Static max
-        self.max = 10
+        self.max = 100
+
+    def getIntroText(self):
+        texts = {
+        0: "hi",
+        1: "Welcome",
+        2: "==== Welcome to Loading Bar Sim! ==="
+        }
+        return texts[self.introText]
 
     def getLoadingText(self):
         texts = {
         0: "2 load pres spcae alot",
-        2: "Press space to load...",
-        3: "Loading: Press Space to process faster."}
+        1: "Press space to load...",
+        2: "Loading: Press Space to process faster..."}
         return texts[self.loadingText]
+
+    def getFinishedText(self):
+        texts = {
+        0: "X",
+        1: "Done",
+        2: "Loading Complete. Prace any key to continue..."}
+        return texts[self.finishedText]
+
 
     def isLoaded(self):
         return self.current >= self.max
 
     def load(self):
+        clear()
+        self.current = 0
+        print self.getIntroText()
         print self.getLoadingText()
         while not self.isLoaded():
             if getInput() == " ":
-                self.current += 1
-        print "Done"
+                self.current += 20
+        print self.getFinishedText()
+        getInput()    
 
     def upgrade(self):
+        clear()
         prettyDict = {
         "loadingText": "Loading Text",
         "finishedText": "Completion Text",
@@ -50,7 +71,7 @@ class LoadingBar(object):
         upgradeable = {}
         i = 0
         for key in self.__dict__:
-            if key in prettyDict and self.__dict__[key] < 3:
+            if key in prettyDict and self.__dict__[key] < 2:
                 upgradeable[i] = key
                 i += 1
 
@@ -98,10 +119,7 @@ def getNum(maxVal = 9):
             userInput = getInput()   
     return userInput
 
-clear()
 a = LoadingBar()
-a.load()
-a.upgrade()
-a.upgrade()
-a.upgrade()
-
+while True:
+    a.load()
+    a.upgrade()
