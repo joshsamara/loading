@@ -2,6 +2,7 @@
 import sys
 import os
 import random
+import time
 from mygetch import *
 
 class LoadingBar(object):
@@ -13,14 +14,18 @@ class LoadingBar(object):
         self.finishedText = [0,2]
         self.introText = [0,3]
         self.brackets = [0,3]
-        self.barStyle = [0,3]
+        self.barStyle = [0,4]
         self.counter = [0,3]
+        self.loadSpeed = [0,5]
 
         #Dynamic counter
         self.current = 0
 
         #Static max
         self.maxVal = 200
+
+    def getLoadSpeed(self):
+        return (self.loadSpeed[0] + 1) * 5
 
     def getIntroText(self):
         texts = {
@@ -55,10 +60,11 @@ class LoadingBar(object):
 
     def getBar(self):
         types = {
-        0: "  ",
-        1: "|x",
-        2: "-.",
-        3: "=-"}
+        0: "' ",
+        1: "| ",
+        2: "O>",
+        3: "-.",
+        4: "=-"}
         return types[self.barStyle[0]]
 
     def getCounter(self):
@@ -67,7 +73,7 @@ class LoadingBar(object):
         elif self.counter[0] == 1:
             return str(min(self.current/2, self.maxVal/2))
         elif self.counter[0] == 2:
-            return "%s/%s" % (min(self.current/2, self.maxVal/2), self.maxVal)
+            return "%s/%s" % (min(self.current, self.maxVal)/2, self.maxVal/2)
         elif self.counter[0] == 3:
             digit = 2 * int(float(min(self.current/2, self.maxVal/2))/self.maxVal * 100)
             dec = [str(random.randint(0,99)).zfill(2), "00"][digit == 100]
@@ -106,10 +112,11 @@ class LoadingBar(object):
         while not self.isLoaded():
             self.drawLoadBar()
             if getInput() == " ":
-                self.current += random.randint(1,20)
+                self.current += random.randint(1,self.getLoadSpeed())
         self.drawLoadBar()    
         print "\n"+self.getFinishedText()
-        getInput()    
+        getInput()
+        time.sleep(.2)
 
     def upgrade(self):
         clear()
@@ -119,7 +126,8 @@ class LoadingBar(object):
         "introText": "Introduction Text",
         "brackets": "Bracket Style",
         "barStyle": "Loading Bar Style",
-        "counter": "Completion Counter"}
+        "counter": "Completion Counter",
+        "loadSpeed": "LOADING SPEED"}
 
         upgradeable = {}
         i = 0
