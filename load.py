@@ -4,17 +4,19 @@ import os
 import random
 import time
 from mygetch import *
+from upgrades import *
+
 
 class LoadingBar(object):
-    """docstring for LoadingBar"""
+    """Loading bar stat representation"""
     def __init__(self):
         super(LoadingBar, self).__init__()
         #levels of properties
-        self.loadingText = [0,2]
-        self.finishedText = [0,2]
-        self.introText = [0,3]
-        self.brackets = [0,3]
-        self.barStyle = [0,4]
+        self.loadingText = [0,len(allLoadingTexts)-1]
+        self.finishedText = [0,len(allFinishedTexts)-1]
+        self.introText = [0,len(allIntroTexts)-1]
+        self.brackets = [0,len(allBracketTypes)-1]
+        self.barStyle = [0,len(allBarTypes)-1]
         self.counter = [0,3]
         self.loadSpeed = [0,5]
 
@@ -28,44 +30,19 @@ class LoadingBar(object):
         return (self.loadSpeed[0] + 1) * 5
 
     def getIntroText(self):
-        texts = {
-        0: ".",
-        1: "hi",
-        2: "Welcome",
-        3: "==== Welcome to Loading Bar Sim! ==="
-        }
-        return texts[self.introText[0]]
+        return allIntroTexts[self.introText[0]]
 
     def getLoadingText(self):
-        texts = {
-        0: "2 load pres spcae alot",
-        1: "Press space to load...",
-        2: "Loading: Press Space to process faster..."}
-        return texts[self.loadingText[0]]
+        return allLoadingTexts[self.loadingText[0]]
 
     def getFinishedText(self):
-        texts = {
-        0: "X",
-        1: "Done",
-        2: "Loading Complete. Prace any key to continue..."}
-        return texts[self.finishedText[0]]
+        return allFinishedTexts[self.finishedText[0]]
 
     def getBrackets(self):
-        types = {
-        0: "  ",
-        1: "{!",
-        2: "/\\",
-        3: "[]"}
-        return types[self.brackets[0]]
+        return allBracketTypes[self.brackets[0]]
 
     def getBar(self):
-        types = {
-        0: "' ",
-        1: "| ",
-        2: "O>",
-        3: "-.",
-        4: "=-"}
-        return types[self.barStyle[0]]
+        return allBarTypes[self.barStyle[0]]
 
     def getCounter(self):
         if self.counter[0] == 0:
