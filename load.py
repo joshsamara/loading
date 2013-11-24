@@ -158,8 +158,10 @@ def getNum(maxVal = 9):
         try:
             userInput = int(userInput)
             valid = userInput <= maxVal
+            if not valid:
+                userInput = getInput()
         except:
-            userInput = getInput()   
+            userInput = getInput()
     return userInput
 
 a = LoadingBar()
